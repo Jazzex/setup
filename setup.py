@@ -34,25 +34,6 @@ while name == '':
 while email == '' or '@' not in email:
   email = raw_input("What's your email?\n").strip()
 
-
-# Setup Options
-while options['designer'] not in ['y', 'n']:
-  options['designer'] = raw_input("Do you want to install Designer Tools? (%s)  " % '|'.join(['y','n']))
-
-while options['developer'] not in ['y', 'n']:
-  options['developer'] = raw_input("Do you want to install Developer Tools? (%s)  " % '|'.join(['y','n']))
-
-if options['developer'] == 'y':
-  while options['web'] not in ['y', 'n']:
-    options['web'] = raw_input("Do you want to install Web Developer Tools? (%s)  " % '|'.join(['y','n']))
-
-  while options['android'] not in ['y', 'n']:
-    options['android'] = raw_input("Do you want to install Android Tools? (%s)  " % '|'.join(['y','n']))
-
-  while options['ios'] not in ['y', 'n']:
-    options['ios'] = raw_input("Do you want to install iOS Tools? (%s)  " % '|'.join(['y','n']))
-
-
 # Other Options
 while options['vim'] not in ['y', 'n']:
   options['vim'] = raw_input("Do you want to install VIM with Awesome VIM? (%s)  " % '|'.join(['y','n']))
@@ -131,45 +112,15 @@ os.system('brew install svn')
 os.system('brew cask install font-dosis font-droid-sans-mono-for-powerline font-open-sans font-open-sans-condensed font-roboto font-roboto-mono font-roboto-slab font-consolas-for-powerline font-inconsolata font-inconsolata-for-powerline font-lato font-menlo-for-powerline font-meslo-lg font-meslo-for-powerline font-noto-sans font-noto-serif font-source-sans-pro font-source-serif-pro font-ubuntu font-pt-mono font-pt-sans font-pt-serif font-fira-mono font-fira-mono-for-powerline font-fira-code font-fira-sans font-source-code-pro font-hack font-anka-coder font-jetbrains-mono')
 
 print "Installing Essential Apps"
-os.system('brew cask install iterm2 spectacle the-unarchiver')
-os.system('brew cask install google-chrome firefox sourcetree visual-studio-code dropbox skype spotify slack vlc')
-
-os.system('brew cask fetch google-hangouts qlimagesize')
-show_notification("We need your password")
-os.system('brew cask install google-hangouts qlimagesize')
-
+os.system('brew cask install the-unarchiver')
+os.system('brew cask install vlc')
 
 # Appropriate Software
 if options['developer'] == 'y':
   print "Installing Developer Tools"
-  os.system('brew cask install docker ngrok sequel-pro cyberduck tunnelblick insomnia')
+  os.system('brew cask install docker ngrok insomnia')
   os.system('curl -o- https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash')
             
-if options['android'] == 'y':
-  print "Installing Android Tools"
-  os.system('brew cask fetch java')
-  show_notification("We need your password")
-  os.system('brew cask install java')
-  os.system('brew cask install android-studio')
-  os.system('brew cask install android-platform-tools')
-
-if options['ios'] == 'y':
-  print "Installing iOS Tools"
-  show_notification("We need your password")
-  os.system('sudo gem install cocoapods')
-  show_notification("We need your password")
-  os.system('sudo gem install fastlane --verbose')
-
-if options['web'] == 'y':
-  print "Installing Web Developer Tools"
-  os.system('brew cask install imageoptim imagealpha xnconvert')
-  
-if options['designer'] == 'y':
-  print "Installing Designer Tools"
-  os.system('brew cask install invisionsync skala-preview')
-  os.system('brew cask install adapter handbrake')
-  os.system('brew cask install origami-studio')
-
 if options['vim'] == 'y':
   print "Installing VIM + Awesome VIM"
 
@@ -198,7 +149,7 @@ if options['zsh'] == 'y':
     # Agnoster Theme
     os.system('sed -i -e \'s/robbyrussell/agnoster/g\' ~/.zshrc &> /dev/null')
     # Plugins
-    os.system('sed -i -e \'s/plugins=(git)/plugins=(git brew sublime node npm docker zsh-autosuggestions zsh-syntax-highlighting colored-man-pages copydir copyfile extract)/g\' ~/.zshrc &> /dev/null')
+    os.system('sed -i -e \'s/plugins=(git)/plugins=(git brew node npm docker zsh-autosuggestions zsh-syntax-highlighting colored-man-pages copydir copyfile extract)/g\' ~/.zshrc &> /dev/null')
 
     # Customizations
     os.system('echo "alias dog=\'bat\'" >> ~/.zshrc')
@@ -209,9 +160,6 @@ if options['zsh'] == 'y':
 
   # Remove the 'last login' message
   os.system('touch ~/.hushlogin')
-
-  os.system('git clone https://github.com/dracula/iterm.git ~/Desktop/dracula-theme/')
-
 
 # Random OSX Settings
 print "Tweaking OSX Settings"
@@ -249,26 +197,13 @@ if options['animations'] == 'y':
   os.system('defaults write NSGlobalDomain com.apple.springing.delay -float 0.5')
   os.system('killall Dock')
 
-
 if options['autoupdate'] == 'y':
   print "Enabling Automatic Brew Updates & Upgrades"
   os.system('brew tap domt4/autoupdate')
   os.system('brew autoupdate --start --upgrade')
 
-
-# Make Google Chrome the default browser
-os.system('open -a "Google Chrome" --args --make-default-browser')
-
-# Open Spectacle (Needs to be enabled manually)
-os.system('open -a "Spectacle"')
-
-# Open Dropbox
-os.system('open -a "Dropbox"')
-
-
 # Clean Up
 os.system('brew cleanup')
-
 
 # Mute startup sound
 show_notification("We need your password")
@@ -287,30 +222,6 @@ print "Your SSH Public Key Is:"
 with open(os.path.expanduser("~") + '/.ssh/id_rsa.pub', 'r') as f:
   print f.read()
 print ""
-
-if options['zsh'] == 'y':
-  print "*************************************"
-  print "Remember to set up iTerm2:"
-  print "* Go to iTerm2 > Preferences > Profiles > Colors Tab"
-  print "  * Load Presets..."
-  print "  * Import..."
-  print "  * Pick Desktop > dracula-theme > iterm > Dracula.itermcolors"
-  print "* Go to iTerm2 > Preferences > Profiles > Text Tab"
-  print "  * Regular Font"
-  print "  * 12pt Menlo for Powerline Font"
-  print ""
-
-if options['sublime'] == 'y':
-
-  print "*************************************"
-  print "Please launch Sublime Text to finish setup"
-  print "Material Theme needs to be enabled manually"
-  print "On User Preferences, add: \"theme\": \"Material-Theme.sublime-theme\""
-  print ""
-
-print "*************************************"
-print "Remember to restart your Mac"
-print "*************************************"
 
 show_notification("All done! Enjoy your new macOS!")
 
